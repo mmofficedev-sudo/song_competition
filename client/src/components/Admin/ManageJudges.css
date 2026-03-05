@@ -1,0 +1,50 @@
+.judge-setup {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-xl);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.judge-setup h3 {
+  color: var(--holo-cyan);
+  margin-bottom: var(--space-md);
+}
+
+.judges-section {
+  margin-top: var(--space-xl);
+}
+
+.judges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.judge-card {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  text-align: center;
+  backdrop-filter: blur(8px);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.judge-card:hover {
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+}
+
+.judge-card h4 {
+  color: var(--holo-cyan);
+  margin-bottom: var(--space-sm);
+}
+
+.judge-card p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-md);
+}

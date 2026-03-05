@@ -1,0 +1,210 @@
+/* ========== Holographic design tokens – dark blue main ========== */
+:root {
+  /* Dark blue as main */
+  --color-main: #1e40af;
+  --color-main-light: #2563eb;
+  --color-main-dark: #1e3a8a;
+  
+  /* Accent blues (iridescent) */
+  --holo-violet: #3b82f6;
+  --holo-blue: #2563eb;
+  --holo-cyan: #0ea5e9;
+  --holo-pink: #38bdf8;
+  --holo-purple: #60a5fa;
+  
+  /* Holographic gradients – blue dominant */
+  --gradient-holo: linear-gradient(
+    135deg,
+    #1e40af 0%,
+    #2563eb 25%,
+    #0ea5e9 50%,
+    #38bdf8 75%,
+    #1e40af 100%
+  );
+  --gradient-holo-subtle: linear-gradient(
+    135deg,
+    rgba(30, 64, 175, 0.95) 0%,
+    rgba(37, 99, 235, 0.95) 50%,
+    rgba(14, 165, 233, 0.95) 100%
+  );
+  --gradient-holo-soft: linear-gradient(
+    135deg,
+    rgba(30, 64, 175, 0.2) 0%,
+    rgba(14, 165, 233, 0.15) 50%,
+    rgba(56, 189, 248, 0.15) 100%
+  );
+  
+  /* Keep for badges/success */
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%);
+  --gradient-header: var(--gradient-holo);
+  
+  /* Glass / frosted */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-strong: rgba(255, 255, 255, 0.18);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-blur: 12px;
+  --glass-blur-strong: 20px;
+  
+  /* Primary = dark blue */
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1e40af;
+  --color-primary-bg: rgba(37, 99, 235, 0.15);
+  
+  /* Accents */
+  --color-success: #10b981;
+  --color-success-hover: #059669;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-info: #0ea5e9;
+  --color-info-hover: #0284c7;
+  
+  /* Neutrals (slightly dark for holographic contrast) */
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(255, 255, 255, 0.15);
+  --color-bg: rgba(15, 23, 42, 0.4);
+  --color-bg-card: rgba(255, 255, 255, 0.06);
+  --color-bg-overlay: rgba(15, 23, 42, 0.7);
+  
+  /* Holographic glow shadows – blue */
+  --shadow-holo: 0 0 20px rgba(37, 99, 235, 0.35),
+    0 0 40px rgba(14, 165, 233, 0.2),
+    0 0 60px rgba(56, 189, 248, 0.15);
+  --shadow-holo-sm: 0 0 15px rgba(37, 99, 235, 0.3);
+  --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.25);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.25);
+  
+  /* Spacing & radii (unchanged) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  
+  /* Motion */
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  
+  /* Typography */
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+}
+
+/* ========== Reset & base ========== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background: #0f172a;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(30, 64, 175, 0.35), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(14, 165, 233, 0.2), transparent),
+    radial-gradient(ellipse 60% 40% at 0% 50%, rgba(56, 189, 248, 0.15), transparent);
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: var(--space-md);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(30, 64, 175, 0.25), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (min-width: 640px) {
+  body {
+    padding: var(--space-lg);
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Holographic shimmer animation */
+@keyframes holo-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--holo-cyan);
+  outline-offset: 2px;
+}
+
+/* ========== Select boxes – dark blue ========== */
+select {
+  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+  border: 1px solid rgba(37, 99, 235, 0.6);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  appearance: auto;
+}
+
+select:hover {
+  border-color: rgba(37, 99, 235, 0.9);
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.25);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+}
+
+select option {
+  background: #1e3a8a;
+  color: var(--color-text);
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
