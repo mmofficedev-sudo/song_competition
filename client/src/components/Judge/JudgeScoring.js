@@ -43,7 +43,6 @@ function JudgeScoring() {
         const data = await songsRes.json();
         const config = configRes.ok ? await configRes.json() : {};
         const eventFilter = config.currentCompetitionEvent || '';
-        const targetOrder = config.currentProgramOrder != null ? config.currentProgramOrder : 1;
 
         let competitionSongs = data.filter(song => song.inCompetition);
         if (eventFilter) {
