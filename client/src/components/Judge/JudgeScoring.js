@@ -50,8 +50,6 @@ function JudgeScoring() {
           competitionSongs = competitionSongs.filter(s => s.competitionEvent === eventFilter);
         }
         competitionSongs.sort((a, b) => (a.programOrder || 0) - (b.programOrder || 0));
-
-        const wantedIndex = Math.max(0, Math.min(targetOrder - 1, competitionSongs.length - 1));
         
         // Load which songs this judge has scored, then find first unscored song in program order
         const scoreResponse = await fetch(`${API_BASE}/scores/judge/${judge.name}`);
