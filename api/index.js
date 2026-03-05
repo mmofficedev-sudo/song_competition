@@ -69,9 +69,29 @@ app.use('/api/judges', judgeRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/competition-config', competitionConfigRoutes);
 
-// Health check endpoint
+// Health check endpoint (accessible at root of function)
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', connected: isConnected });
+  res.json({ status: 'ok', connected: isConnected, mongodbUri: MONGODB_URI ? 'configured' : 'missing' });
+});
+
+// Root endpoint for testing
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'API is working', 
+    path: req.path,
+    url: req.url,
+    connected: isConnected 
+  });
+});
+
+// 404 handler for unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ 
+    message: 'Route not found',
+    path: req.path,
+    url: req.url,
+    method: req.method
+  });
 });
 
 // Error handling middleware (must be last)
@@ -83,4 +103,5 @@ app.use((err, req, res, next) => {
 });
 
 // Export for Vercel serverless
+// @vercel/node automatically handles Express apps
 module.exports = app;
