@@ -36,7 +36,13 @@ function JudgeLogin() {
         body: JSON.stringify({ name, password })
       });
 
-      const result = await response.json();
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        // If response is not JSON, it's likely a server error
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
 
       if (response.ok) {
         localStorage.setItem('currentJudge', JSON.stringify(result.judge));
