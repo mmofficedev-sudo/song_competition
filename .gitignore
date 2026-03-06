@@ -2,3 +2,9 @@ node_modules/
 .env
 .DS_Store
 *.log
+
+# Unused image files
+client/public/card_bg1.png
+client/public/header1.png
+client/public/favicon1.png
+client/src/assets/
