@@ -8,7 +8,8 @@
 .results-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-bg-card);
+  background: var(--card-bg-image, var(--color-bg-card)) center/cover no-repeat, var(--color-bg-card);
+  background-size: cover;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: var(--glass-border);

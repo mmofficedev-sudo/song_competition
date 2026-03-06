@@ -370,9 +370,6 @@ function JudgeScoring() {
         {/* Current Song Info */}
         <div
           className="current-song-card"
-          style={{
-            '--card-bg-image': `url(${process.env.PUBLIC_URL || ''}/bg.jpg)`
-          }}
         >
           <div className="song-order-badge">#{currentSong.programOrder || currentIndex + 1}</div>
           <div className="song-details">

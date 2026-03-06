@@ -22,8 +22,9 @@
   gap: var(--space-md);
   margin-bottom: var(--space-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--holo-cyan);
+  color: #ffffff;
   font-size: var(--font-size-sm);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .scored-badge {
@@ -59,7 +60,7 @@
 
 /* ========== Current song card – glass + holo ========== */
 .current-song-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%), var(--card-bg-image, none);
+  background: var(--card-bg-image, none) center/cover no-repeat, linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -107,17 +108,19 @@
 }
 
 .song-details h2 {
-  color: var(--color-text);
+  color: #ffffff;
   margin-bottom: var(--space-sm);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
 .song-details p {
-  color: var(--color-text-muted);
+  color: #ffffff;
   margin: var(--space-xs) 0;
   font-size: var(--font-size-base);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* ========== Criteria scoring – glass ========== */
@@ -131,11 +134,12 @@
 }
 
 .criteria-scoring h3 {
-  color: var(--holo-cyan);
+  color: #ffffff;
   margin-bottom: var(--space-lg);
   text-align: center;
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
 .criterion {
@@ -155,8 +159,9 @@
 .criterion label {
   display: block;
   margin-bottom: var(--space-sm);
-  color: var(--color-text);
+  color: #ffffff;
   font-weight: var(--font-weight-medium);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 2px 6px rgba(0, 0, 0, 0.5);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
 }

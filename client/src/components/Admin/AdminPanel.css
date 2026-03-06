@@ -78,7 +78,8 @@
 }
 
 .song-card {
-  background: var(--glass-bg);
+  background: var(--card-bg-image, var(--glass-bg)) center/cover no-repeat, var(--glass-bg);
+  background-size: cover;
   border: var(--glass-border);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
@@ -93,15 +94,17 @@
 }
 
 .song-card h3 {
-  color: var(--holo-cyan);
+  color: #ffffff;
   margin-bottom: var(--space-sm);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
 .song-card p {
-  color: var(--color-text-muted);
+  color: #ffffff;
   margin: var(--space-xs) 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5);
   font-size: var(--font-size-sm);
 }
 
@@ -177,7 +180,8 @@
 }
 
 .modal-content {
-  background: var(--color-bg-card);
+  background: var(--bg-image, var(--color-bg-card)) center/cover no-repeat, var(--color-bg-card);
+  background-size: cover;
   border: var(--glass-border);
   padding: var(--space-xl);
   border-radius: var(--radius-lg);
