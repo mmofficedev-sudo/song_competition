@@ -1,3 +1,11 @@
+.judge-empty-hint {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.55;
+  font-size: var(--font-size-base);
+}
+
 /* ========== Scoring layout ========== */
 .scoring-form {
   max-width: 720px;

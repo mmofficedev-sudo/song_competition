@@ -23,6 +23,7 @@ function JudgeScoring() {
   const [lastLoadedSongId, setLastLoadedSongId] = useState(null);
   const navigate = useNavigate();
   const lastConfigRef = useRef({ currentProgramOrder: null, currentCompetitionEvent: null });
+  const [emptyHint, setEmptyHint] = useState(null);
 
   useEffect(() => {
     const savedJudge = localStorage.getItem('currentJudge');
@@ -40,20 +41,59 @@ function JudgeScoring() {
           fetch(`${API_BASE}/songs`),
           fetch(`${API_BASE}/competition-config`)
         ]);
-        const data = await songsRes.json();
+        const rawSongs = songsRes.ok ? await songsRes.json() : null;
+        const data = Array.isArray(rawSongs) ? rawSongs : [];
         const config = configRes.ok ? await configRes.json() : {};
-        const eventFilter = config.currentCompetitionEvent || '';
+        const eventFilter = String(config.currentCompetitionEvent || '').trim();
+        const eventMatches = (songEvent) =>
+          String(songEvent || '').trim() === eventFilter;
 
-        let competitionSongs = data.filter(song => song.inCompetition);
+        const allInCompetition = data.filter(song => song.inCompetition);
+        let competitionSongs = allInCompetition;
         if (eventFilter) {
-          competitionSongs = competitionSongs.filter(s => s.competitionEvent === eventFilter);
+          competitionSongs = allInCompetition.filter(s => eventMatches(s.competitionEvent));
         }
         competitionSongs.sort((a, b) => (a.programOrder || 0) - (b.programOrder || 0));
+
+        if (competitionSongs.length === 0) {
+          if (!songsRes.ok || rawSongs === null) {
+            setEmptyHint({
+              type: 'fetch',
+              text: 'Could not load songs from the server. Check your connection and try again.'
+            });
+          } else if (allInCompetition.length === 0) {
+            setEmptyHint({
+              type: 'none',
+              text: 'No songs are marked as in the competition. In Admin → Manage Songs, open each song and ensure it counts toward the competition (saved songs include this by default), or ask an admin to verify the song list.'
+            });
+          } else if (eventFilter) {
+            setEmptyHint({
+              type: 'event',
+              event: eventFilter,
+              text: `The active competition event for judges is "${eventFilter}", but none of your in-competition songs use that exact event. In Admin → Manage Songs, set each song’s Competition Event to match, then save Program Order for that event—or in Program Order use "Clear judge event filter" to show all in-competition songs.`
+            });
+          } else {
+            setEmptyHint({
+              type: 'none',
+              text: 'No songs available for scoring right now.'
+            });
+          }
+        } else {
+          setEmptyHint(null);
+        }
         
         // Load which songs this judge has scored, then find first unscored song in program order
-        const scoreResponse = await fetch(`${API_BASE}/scores/judge/${judge.name}`);
-        const scoreData = await scoreResponse.json();
-        const scored = new Set(scoreData.map(score => score.songId._id || score.songId));
+        const scoreResponse = await fetch(`${API_BASE}/scores/judge/${encodeURIComponent(judge.name)}`);
+        const scorePayload = scoreResponse.ok ? await scoreResponse.json() : [];
+        const scoreData = Array.isArray(scorePayload) ? scorePayload : [];
+        const scored = new Set(
+          scoreData.map(score => {
+            const sid = score.songId && typeof score.songId === 'object'
+              ? score.songId._id
+              : score.songId;
+            return sid;
+          })
+        );
         setScoredSongs(scored);
         
         const firstUnscoredIndex = competitionSongs.length > 0
@@ -114,6 +154,10 @@ function JudgeScoring() {
         });
       } catch (error) {
         console.error('Error loading songs:', error);
+        setEmptyHint({
+          type: 'fetch',
+          text: 'Something went wrong while loading songs or scores. Refresh the page or ask an admin to check the server.'
+        });
       }
     };
     
@@ -152,7 +196,8 @@ function JudgeScoring() {
       const loadExistingScore = async () => {
         try {
           const response = await fetch(`${API_BASE}/scores/song/${currentSong._id}`);
-          const data = await response.json();
+          const raw = response.ok ? await response.json() : [];
+          const data = Array.isArray(raw) ? raw : [];
           const judgeScore = data.find(score => score.judgeName === currentJudge.name);
           
           if (judgeScore) {
@@ -253,7 +298,8 @@ function JudgeScoring() {
         // Reload the score from server to ensure it's saved correctly
         try {
           const reloadResponse = await fetch(`${API_BASE}/scores/song/${currentSong._id}`);
-          const reloadData = await reloadResponse.json();
+          const reloadRaw = reloadResponse.ok ? await reloadResponse.json() : [];
+          const reloadData = Array.isArray(reloadRaw) ? reloadRaw : [];
           const reloadedScore = reloadData.find(score => score.judgeName === currentJudge.name);
           
           if (reloadedScore) {
@@ -331,7 +377,9 @@ function JudgeScoring() {
             <span>Logged in as: <strong>{currentJudge.name}</strong></span>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </div>
-          <div className="loading">No songs in competition. Please wait for admin to add songs.</div>
+          <div className="loading judge-empty-hint">
+            {emptyHint?.text || 'No songs in competition. Please wait for an admin to add songs or fix program settings.'}
+          </div>
         </div>
       </div>
     );

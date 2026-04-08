@@ -15,7 +15,10 @@ function ProgramOrder() {
 
   const competitionSongsForEvent = useMemo(() => {
     if (!selectedEvent) return [];
-    const forEvent = allSongs.filter(s => s.inCompetition && s.competitionEvent === selectedEvent);
+    const ev = String(selectedEvent).trim();
+    const forEvent = allSongs.filter(
+      s => s.inCompetition && String(s.competitionEvent || '').trim() === ev
+    );
     return forEvent.sort((a, b) => (a.programOrder || 0) - (b.programOrder || 0));
   }, [allSongs, selectedEvent]);
 
@@ -124,13 +127,15 @@ function ProgramOrder() {
     }));
 
     try {
+      const eventToSave = selectedEvent ? String(selectedEvent).trim() : '';
       const promises = updates.map(update =>
         fetch(`${API_BASE}/songs/${update.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             inCompetition: update.inCompetition,
-            programOrder: update.programOrder 
+            programOrder: update.programOrder,
+            ...(eventToSave ? { competitionEvent: eventToSave } : {})
           })
         })
       );
@@ -168,6 +173,26 @@ function ProgramOrder() {
     setTimeout(() => setMessage({ text: '', type: '' }), 3000);
   };
 
+  const clearJudgeEventFilter = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/competition-config/current-song`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentCompetitionEvent: '' })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentCompetitionEvent(data.currentCompetitionEvent || '');
+        showMessage('Judges will now see all in-competition songs (not filtered by event).', 'success');
+      } else {
+        showMessage('Could not clear event filter', 'error');
+      }
+    } catch (e) {
+      showMessage('Could not clear event filter', 'error');
+      console.error(e);
+    }
+  };
+
   const isCurrentSong = (index) =>
     selectedEvent === currentCompetitionEvent && (index + 1) === currentProgramOrder;
 
@@ -188,11 +213,22 @@ function ProgramOrder() {
             <option key={event} value={event}>{event}</option>
           ))}
         </select>
-        {/* {currentCompetitionEvent && (
-          <span className="current-song-label">
-            Current song: {currentCompetitionEvent} #{currentProgramOrder}
+        {currentCompetitionEvent ? (
+          <span className="current-song-label" title="Judges only see songs for this event">
+            Judges active event: <strong>{currentCompetitionEvent}</strong> (song #{currentProgramOrder})
           </span>
-        )} */}
+        ) : (
+          <span className="current-song-label">Judges see all in-competition songs (no event filter).</span>
+        )}
+        <button
+          type="button"
+          className="submit-btn secondary-btn"
+          onClick={clearJudgeEventFilter}
+          disabled={!currentCompetitionEvent}
+          title="If judges see no songs, the active event may not match your songs—clear to show every in-competition song"
+        >
+          Clear judge event filter
+        </button>
       </div>
       
       <div className="program-list">

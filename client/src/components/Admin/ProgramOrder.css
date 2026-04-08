@@ -45,6 +45,16 @@
   font-size: var(--font-size-sm);
 }
 
+.program-order-event-row .secondary-btn {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.program-order-event-row .secondary-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .program-list {
   margin-top: var(--space-lg);
 }
